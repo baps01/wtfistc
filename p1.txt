@@ -1,0 +1,431 @@
+clc;
+clf;
+x=input("Enter the value of x[n] ");//input[1,2,3,4]
+h=input("Enter the value of h[n] ");//impulse[1,2,3,4]
+n1=length(x);//size of x//4
+n2=length(h);//size of h
+n=n1+n2-1;// 7
+subplot(3,1,1);
+plot2d3(x);
+xlabel("n");
+ylabel("x[n]");
+title("Graph of x[n]");
+subplot(3,1,2);
+plot2d3(h);
+xlabel("n");
+ylabel("h[n]");
+title("Graph of h[n]");
+//n1=4
+//n2=4 [1,2,3,4,0,0,0]
+x=[x,zeros(1,n-n1)];//1,2,3,4
+h=[h,zeros(1,n-n2)];
+for i=1:n;//7
+    conv_sum=0;
+    for j=1:i//i=2
+        if(((i-j+1)<=n1)&&(j<=n2))//2-1+1
+            conv_sum=conv_sum+x(j)*h(i-j+1);
+//1*1
+//0=0+x(1)*h(1)
+        end
+        y(i)=conv_sum;//1
+    end
+end
+disp(y);
+subplot(3,1,3);
+plot2d3(y);
+xlabel("n");
+ylabel("y[n]");
+title("Graph of y[n]");
+
+
+Circular
+clc; clear all;
+g = input ( " Enter x seq " ) ;
+h = input ( "Enter h seq " ) ;
+n1 = length ( g ) ;
+n2 = length ( h ) ; 
+n=max(n1,n2); 
+n3=n1-n2; 
+if(n3>0) 
+    h=[h,zeros(1,n3)]; 
+else
+    g=[g,zeros(1,n3)];
+end
+for p = 1:n 
+    y(p)=0;
+    for q=1:n 
+        j=p-q+1; 
+        if(j <= 0) 
+            j = n+j;
+        end
+    y(p)=[y(p)+g(p)*h(j)];
+    end
+end 
+disp(y)
+subplot(2,1,1); 
+plot(y);
+
+
+Image Quantization
+clc;clear all;
+I=imread("");
+I=double(I);//
+disp("i===",I);
+b=max(I)
+disp("b= ",b);
+a=input("How many bits you want 1,2,4,6 = ")//2
+c=b/(2*a);c=225/4=63.75//63
+f=floor(I/c);
+disp("f= ",f)
+f1=(f*255)/max(f);
+figure(1)
+imshow(uint8(I))//unsigned integer 8//127
+figure(2)
+imshow(uint8(f1))
+
+
+
+
+Bit Resolution
+clear all; ;
+x=imread(""); 
+imshow(x);
+[r c s]=size(x);
+disp([r c s]);
+m=max(max(max(x))); 
+disp(m);
+b=[2 3 4];
+for i=1:length(b) 
+    d=2^b(i); 
+    z=round(x/d); 
+    figure 
+    imshow(z*d) 
+end
+
+
+
+
+
+DFT IDFT conv
+clc ; clear all; close ;
+x = input ( " Enter x seq " ) ;
+h = input ( "Enter h seq " ) ;
+m = length ( x ) ;
+n = length ( h ) ;
+N = n +m -1;
+x=[x,zeros(1,N-m)];
+h=[h,zeros(1,N-n)];
+f1 = fft( x )
+disp("f1 = ",f1)
+f2 = fft( h )
+f3 = f1 .* f2 ;
+f4 = ifft ( f3 );
+disp ("Convolution Sum Result DFT-IDFT method = ",f4);
+subplot (3 ,1 ,1) ; 
+plot2d3 ( x );
+xtitle ( " Input sequence" ); 
+subplot (3 ,1 ,2) ;
+plot2d3 (h );
+xtitle ( " Impulse sequence" ) ; 
+subplot (3 ,1 ,3) ;
+plot2d3 ( f4 );
+xtitle ( " Resultant sequence ") ;
+
+
+
+
+Image negative
+clc;
+original=imread("  "); 
+imgdouble=double(original);
+//For 8 bit image c=255;
+c=255;
+negative=c-original; 
+figure(1) 
+imshow(original); 
+figure(2) 
+imshow(negative);
+
+
+
+
+Thresholding
+clc ;
+a = imread ("  "); 
+a = rgb2gray (a);
+[m n] = size (a);//bitwise matrix format
+t = input("Enter the threshold parameter "); 
+for i = 1:m
+    for j = 1:n 
+        if(a(i,j)<t)
+            b(i,j)=0; 
+        else
+            b(i,j)=255;
+        end	end  end
+figure (1) 
+imshow(uint8(a));
+title ( ' Original Image ' ) 
+figure (2) 
+imshow(uint8(b));
+title ( ' Thresholded Image ' )
+xlabel(sprintf( 'Threshold Value is %g ' ,t))
+
+
+
+
+Grey Level Slicing with Background
+clc;
+original=imread("  "); 
+doub=double(original);
+[row column]=size(doub); 
+for i=1:1:row
+    for j=1:1:column
+        if((doub(i,j)> 50) && (doub(i,j)<150)) 
+            doub(i,j)=0; ///without //doub(i,j)=original(i,j);
+end end end
+figure(1) ;  imshow(original); 
+figure(2);imshow(uint8(doub));
+
+
+
+Bitplane
+clc;
+clear all;
+clf;
+c=imread("  ");
+cd = double(c);
+c1 = modulo(cd, 2);
+c2 = modulo(floor(cd/2), 2); 
+c3 = modulo(floor(cd/4), 2);
+c4 = modulo(floor(cd/8), 2); 
+c5 = modulo(floor(cd/16), 2); 
+c6 = modulo(floor(cd/32), 2); 
+c7 = modulo(floor(cd/64), 2);
+c8 = modulo(floor(cd/128), 2);
+cc = (2 * (2 * (2 * (2 * (2 * (2 * (2 * c8 + c7) + c6) + c5) + c4)+ c3) + c2) + c1);
+subplot(2, 5, 1);imshow(c); title('Original Image');
+title('Bit Plane 1');
+subplot(2, 5, 2); imshow(c2); title('Bit Plane 2');
+subplot(2, 5, 3); imshow(c3); title('Bit Plane 3');
+subplot(2, 5, 4); imshow(c4); title('Bit Plane 4');
+subplot(2, 5, 5); imshow(c5); title('Bit Plane 5');
+subplot(2, 5, 6); imshow(c6); title('Bit Plane 6');
+subplot(2, 5, 7); imshow(c7); title('Bit Plane 7');
+subplot(2, 5, 8); imshow(c8); title('Bit Plane 8');
+imshow(uint8(cc)); title('Recombined Image');
+
+
+
+
+Dilation & Erosion
+adilate=zeros(10,10);
+adilate(4:7,4:7)=1 
+disp(adilate); 
+struele=imcreatese("rect",3,3);
+afterdilate=imdilate(adilate,struele); 
+disp(afterdilate); 
+afteropen=imopen(adilate,struele); 
+disp(afteropen);
+aerode=zeros(10,10); 
+aerode(4:7,4:7)=1 
+disp(aerode); 
+struele=imcreatese("rect",3,3);
+aftererode=imerode(aerode,struele); 
+disp(aftererode);
+original=imread("morph2")
+se=imcreatese("rect",3,3)
+dilate=imdilate(original,se); 
+figure(1);
+imshow(original); 
+figure(2);
+imshow(dilate); 
+erode=imerode(original,se); 
+figure(3);
+imshow(erode);
+afteropen=imopen(original,se); 
+figure(4);
+imshow(afteropen);
+afterclose=imclose(original,se); 
+figure(5);
+imshow(afterclose);
+S=imread("morph2.bmp"); 
+se = imcreatese('ellipse',11,11);
+S2 = imclose(S,se); 
+figure(6); 
+imshow(S2);
+S=imread("morph2.bmp")
+se = imcreatese('ellipse',9,9);
+S2 = imopen(S,se); 
+figure(7); 
+imshow(S2);
+
+
+
+LPF & HPF
+
+clc;
+a1=imread("cameraman.jpg");
+a=double(a1);
+[m,n]=size(a);
+w=[1 1 1;1 1 1;1 1 1];
+for i=2:m-1
+    for j=2:n-1       b(i,j)=[w(1)*a(i-1,j+1)+w(2)*a(i,j+1)+w(3)*a(i+1,j+1)+w(4)*a(i-1,j)+w(5)*a(i,j)+w(6)*a(i+1,j)+w(7)*a(i-1,j-1)+w(8)*a(i,j-1)+w(9)*a(i+1,j-1)]/9;
+end
+end
+c=uint8(b);
+figure(1);imshow(c);title("low pass image")  
+clc;
+a1=imread("D:\soft\DIP-prac\cameraman.jpg");
+a=double(a1);
+[m,n]=size(a);
+w=[-1 -1 -1;-1 8 -1;-1 -1 -1];
+for i=20:m-1
+    for j=20:n-1
+      H(i,j)=[w(1)*a(i-1,j+1)+w(2)*a(i,j+1)+w(3)*a(i+1,j+1)+w(4)*a(i-1,j)+w(5)*a(i,j)+w(6)*a(i+1,j)+w(7)*a(i-1,j-1)+w(8)*a(i,j-1)+w(9)*a(i+1,j-1)]/9;
+end
+end
+D=uint8(H);
+figure(2);imshow(D);title("High pass image")      
+figure(3);imshow(a1);title("Original image")
+
+
+
+Prewitt & Sobel
+
+clc;
+clear all;
+a=imread("morph2.bmp");
+a=double(a);
+subplot(2,2,1);
+imshow(a);title("original image");
+w1=[-1 -2 -1; 0 0 0; 1 2 1];
+w2=[-1 0 1; -2 0 2; -1 0 1];
+[row col]=size(a);
+for x=2:row-1
+    for y=2:col-1    
+	a1(x,y)=[w1(1)*a(x-1,y-1)+w1(2)*a(x-1,y)+w1(3)*a(x-1,y+1)+w1(4)*a(x,y-1)+w1(5)*a(x,y)+w1(6)*a(x,y+1)+w1(7)*a(x+1,y-1)+w1(8)*a(x+1,y)+w1(9)*a(x+1,y+1)];      a2(x,y)=w2(1)*a(x-1,y-1)+w2(2)*a(x-1,y)+w2(3)*a(x-1,y+1)+w2(4)*a(x,y-1)+w2(5)*a(x,y)+w2(6)*a(x,y+1)+w2(7)*a(x+1,y-1)+w2(8)*a(x+1,y)+w2(9)*a(x+1,y+1);
+     end   
+end
+subplot(2,2,2);
+imshow(a1);
+title("y gradient");
+subplot(2,2,3);
+imshow(a2);
+title("x gradient");
+output=a1+a2;
+subplot(2,2,4);
+imshow(output);
+title("Sobel output");
+
+
+
+Butterworth & Gaussian
+clc;
+original1=imread("");
+original=rgb2gray(original1);
+original=double(original);
+[m,n]=size(original);
+fc=3;
+N=1;
+a=round(m/2);
+b=round(n/2);
+H=zeros(m,n);
+for i=1:m
+    for j=1:n
+        d=((i-a)^2+(j-b)^2)^0.5;
+        H(i,j)=1/(1+((d/fc)^(2*N)));
+     end		end
+original_freq=fftshift(fft2(original));
+applpf=(original_freq).*H;
+finalout=abs(ifft(applpf));
+title("Butterworth")
+subplot(2,2,1); imshow(original1);
+subplot(2,2,2); imshow(H);
+subplot(2,2,3); surf(H);
+subplot(2,2,4); imshow(uint8(finalout));
+
+
+
+
+clc;
+a=imread("");
+a=rgb2gray(a);
+a=double(a);
+c=size(a);
+N=c(1);
+D0=input('Enter the cut off-frequency: ');
+for u=1:1:c(1)
+    for v=1:1:c(2)
+        Dx=((u-N/2)^2 + (v-N/2)^2)^0.5;
+        D=Dx*Dx;
+        H(u,v)=exp(-D / (2*D0*D0));      
+    end
+end
+vv=fft2(a);
+vc=fftshift(vv);
+x=vc.*H;
+X=abs(ifft(x));
+subplot(2,2,1); imshow(uint8(a));
+subplot(2,2,2); mesh(H);
+subplot(2,2,3); imshow(H);
+subplot(2,2,4); imshow(uint8(X));
+
+
+
+
+
+image histogram
+
+clc;
+clf;
+i=imread("C:\Users\HP\Documents\Dip Pracs\cameraman.jpg")
+ihsv=rgb2hsv(i)
+ih=imhistequal(ihsv(:,:,2))
+io=hsv2rgb(ihsv)
+subplot(1,4,1);
+imshow(i);
+title("Original Image");
+subplot(1,4,2);
+imshow(ihsv);
+title("Color Image Histogram");
+subplot(1,4,3);
+imshow(io);
+title("HSV to RGB");
+subplot(1,4,4);
+imshow(ih);
+title("IH");
+
+
+
+
+RGB Image
+
+clc;
+a=imread("C:\Users\HP\Documents\Dip Pracs\cameraman.jpg");
+a=double(a);
+[row  col dim]=size(a);
+red=a(:,:,1);//gives grey scale image of red plane
+green=a(:,:,2);
+blue=a(:,:,3);
+plane=zeros(row, col);
+RED=cat(3,red,plane,plane);//ensures that red is 24 bit
+GREEN=cat(3,plane,green,plane);
+BLUE=cat(3,plane,plane,blue);
+figure(1);
+subplot(2,2,1);
+imshow(uint8(a));
+subplot(2,2,2);
+imshow(uint8(red));
+subplot(2,2,3);
+imshow(uint8(green));
+subplot(2,2,4);
+imshow(uint8(blue));
+figure(2);
+subplot(2,2,1);
+imshow(uint8(a));
+subplot(2,2,2);
+imshow(uint8(RED));
+subplot(2,2,3);
+imshow(uint8(GREEN));
+subplot(2,2,4);
+imshow(uint8(BLUE));
