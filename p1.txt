@@ -429,3 +429,43 @@ subplot(2,2,3);
 imshow(uint8(GREEN));
 subplot(2,2,4);
 imshow(uint8(BLUE));
+
+
+
+
+
+
+edge detection
+clc;
+a=imread('f:\dip\lavender.jpg');
+a=rgb2gray(a); a=double(a);
+[row col]=size(a); 
+w1=[1 0; -1 0]; w2=[1 -1; 0 0];
+for x=2:1:row-1
+for y=2:1:col-1
+a1(x,y)=w1(1)*a(x,y) + w1(2)*a(x,y+1) + w1(3)*a(x+1,y) +
+w1(4)*a(x+1,y+1);
+a2(x,y)=w2(1)*a(x,y) + w2(2)*a(x,y+1) + w2(3)*a(x+1,y) +
+w2(4)*a(x+1,y+1);
+end
+end a3=a1+a2;
+subplot(2,2,1);imshow(uint8(a1))title('X-gradient image')
+subplot(2,2,2);imshow(uint8(a2))title('Y-gradient image')
+subplot(2,2,3);imshow(uint8(a3))title('Resultant gradient image')
+
+
+
+Edge Detection using Different Edge detectors
+close ;
+clc ;
+a = imread ('d:\dip\supra.jpg');
+a = rgb2gray(a);
+c = edge (a, 'sobel');
+d = edge (a, 'prewitt');
+e = edge (a, 'log');
+f = edge (a, 'canny');
+subplot(2, 3, 1); imshow(a) title ('Original Image')
+subplot(2, 3, 2); imshow(c) title ('Sobel')
+subplot(2, 3, 3); imshow(d) title('Prewitt')
+subplot(2, 3, 4); imshow(e) title ('Log')
+subplot(2, 3, 5); imshow(f) title ('Canny')
